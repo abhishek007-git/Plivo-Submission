@@ -92,7 +92,7 @@ Params 1,901,856 (< 2,000,000). Experiment-sequence dev bpb **2.0044** (baseline
   — over the 2M cap. To remove all DQ risk under any counting method, `model.py` no longer
   creates a separate `head` when tied; the output projection uses `tok_emb.weight` directly via
   `F.linear`. Same math, same params, evaluate.py rebuilds identically.
-- **Effect:** checkpoint now has NO `head.weight` key; naive sum = 1,901,856 = model.n_params(). ✅
+- **Effect:** checkpoint now has NO `head.weight` key; naive sum = 1,901,856 = model.n_params(). 
 - **Side effect (honest):** dropping the throwaway head Linear shifted RNG consumption at model
   construction, which shifted the `get_batch` stream → different batch ORDER → **final dev bpb
   2.0094** (vs 2.0044). Trained-param init is unchanged; the +0.0050 is batch-order seed noise,
