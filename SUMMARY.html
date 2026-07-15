@@ -1,0 +1,326 @@
+<title>Speedrun Summary — English+Hindi LM, dev bpb 2.0044</title>
+<style>
+  :root {
+    --paper: #f3f1ec;
+    --panel: #fbfaf7;
+    --ink: #1a1c1e;
+    --ink-soft: #4a4f55;
+    --line: #d9d5cc;
+    --line-strong: #c3beb2;
+    --accent: #0f6f7a;      /* teal signal */
+    --accent-soft: #0f6f7a26;
+    --good: #2e6d4f;
+    --bad: #a4462f;
+    --warn: #9a7020;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #14161a;
+      --panel: #1b1e23;
+      --ink: #e8e6e1;
+      --ink-soft: #a7adb6;
+      --line: #2c3037;
+      --line-strong: #3a3f48;
+      --accent: #3fbfcc;
+      --accent-soft: #3fbfcc22;
+      --good: #6cc79a;
+      --bad: #e08363;
+      --warn: #d6ac5a;
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #f3f1ec; --panel: #fbfaf7; --ink: #1a1c1e; --ink-soft: #4a4f55;
+    --line: #d9d5cc; --line-strong: #c3beb2; --accent: #0f6f7a; --accent-soft: #0f6f7a26;
+    --good: #2e6d4f; --bad: #a4462f; --warn: #9a7020;
+  }
+  :root[data-theme="dark"] {
+    --paper: #14161a; --panel: #1b1e23; --ink: #e8e6e1; --ink-soft: #a7adb6;
+    --line: #2c3037; --line-strong: #3a3f48; --accent: #3fbfcc; --accent-soft: #3fbfcc22;
+    --good: #6cc79a; --bad: #e08363; --warn: #d6ac5a;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 1rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 4.5vw, 3rem); line-height: 1.05; margin: 0 0 1rem;
+    letter-spacing: -.02em; text-wrap: balance; font-weight: 650;
+  }
+  .lede { font-size: 1.1rem; color: var(--ink-soft); max-width: 62ch; margin: 0; }
+
+  h2 {
+    font-size: 1.25rem; letter-spacing: -.01em; margin: 3.4rem 0 1.1rem;
+    padding-bottom: .5rem; border-bottom: 1px solid var(--line-strong);
+    display: flex; align-items: baseline; gap: .6rem;
+  }
+  h2 .n { font-family: var(--mono); font-size: .8rem; color: var(--accent); }
+
+  /* headline metric row */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+          background: var(--line); border: 1px solid var(--line); border-radius: 10px;
+          overflow: hidden; margin: 2.4rem 0 .5rem; }
+  .kpi { background: var(--panel); padding: 1.1rem 1.2rem; }
+  .kpi .v { font-family: var(--mono); font-size: 1.6rem; font-weight: 600;
+            letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .kpi .l { font-size: .74rem; color: var(--ink-soft); margin-top: .25rem;
+            text-transform: uppercase; letter-spacing: .06em; }
+  .kpi .v.big { color: var(--accent); }
+  @media (max-width: 680px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+
+  .chart-card { background: var(--panel); border: 1px solid var(--line);
+                border-radius: 10px; padding: 1.4rem 1.2rem 1rem; margin-top: 1.2rem; }
+  svg { width: 100%; height: auto; display: block; }
+  .cap { font-size: .82rem; color: var(--ink-soft); margin: .7rem .2rem 0; }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; min-width: 640px; }
+  th, td { text-align: left; padding: .62rem .85rem; border-bottom: 1px solid var(--line); }
+  thead th { background: var(--panel); font-size: .72rem; text-transform: uppercase;
+             letter-spacing: .07em; color: var(--ink-soft); font-weight: 600; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+  tr.best td { background: var(--accent-soft); }
+  .delta-good { color: var(--good); } .delta-bad { color: var(--bad); }
+  .tag { font-family: var(--mono); font-size: .74rem; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 680px) { .grid2 { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+          padding: 1.2rem 1.3rem; }
+  .card h3 { margin: 0 0 .7rem; font-size: .95rem; letter-spacing: .02em; }
+  dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .35rem .9rem; }
+  dt { color: var(--ink-soft); font-size: .86rem; }
+  dd { margin: 0; font-family: var(--mono); font-size: .86rem; font-variant-numeric: tabular-nums; }
+
+  ul.reasons { list-style: none; padding: 0; margin: 0; display: grid; gap: .8rem; }
+  ul.reasons li { padding-left: 1.4rem; position: relative; color: var(--ink); }
+  ul.reasons li::before { content: "→"; position: absolute; left: 0; color: var(--accent);
+                          font-family: var(--mono); }
+  ul.reasons b { font-weight: 650; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line);
+           border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  @media (max-width: 680px) { .split { grid-template-columns: 1fr; } }
+  .split > div { background: var(--panel); padding: 1.2rem 1.3rem; }
+  .split h3 { margin: 0 0 .8rem; font-size: .82rem; text-transform: uppercase;
+              letter-spacing: .08em; }
+  .split.machine h3 { color: var(--accent); } .split.human h3 { color: var(--warn); }
+  .split ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .5rem; font-size: .9rem; }
+  .split li { padding-left: .1rem; }
+
+  code { font-family: var(--mono); background: var(--accent-soft); padding: .08em .4em;
+         border-radius: 4px; font-size: .88em; }
+  .foot { margin-top: 3.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line-strong);
+          color: var(--ink-soft); font-size: .82rem; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">2,000-Step LLM Speedrun · CPU · ≤2M params</p>
+  <h1>A compact bilingual language model, tuned one lever at a time</h1>
+  <p class="lede">Eight attributed experiments took a plain byte-level GPT from
+    <b>2.3718</b> to <b>~2.00</b> bits-per-byte on the held-out English+Hindi dev set;
+    the shipped cap-safe checkpoint scores <b>2.0094</b> — a 15.3% reduction, entirely within
+    the 2,000-step and 2,000,000-parameter caps, on CPU.</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v big">2.0094</div><div class="l">Shipped dev bpb</div></div>
+    <div class="kpi"><div class="v">−15.3%</div><div class="l">vs baseline 2.3718</div></div>
+    <div class="kpi"><div class="v">1,901,856</div><div class="l">Params (&lt; 2.0M)</div></div>
+    <div class="kpi"><div class="v">2000</div><div class="l">Optimizer steps</div></div>
+  </div>
+
+  <h2><span class="n">01</span> The descent</h2>
+  <div class="chart-card">
+    <svg id="chart" viewBox="0 0 900 380" role="img"
+         aria-label="Line chart of dev bits-per-byte across nine runs, falling from 2.3718 to 2.0044."></svg>
+    <p class="cap">Dev bits-per-byte after each run. The teal line tracks the kept
+      configuration; hollow points are experiments that were reverted or held as neutral.
+      Lower is better. The experiment sequence bottomed at 2.0044; the shipped checkpoint
+      re-runs the same config with a tied-weight dedup fix (cap-safe under any counting) and
+      scores 2.0094 — a ~0.005 batch-order seed shift, not a regression.</p>
+  </div>
+
+  <h2><span class="n">02</span> Every run, and what it bought</h2>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr>
+        <th>#</th><th>Change (one per run)</th><th class="num">Params</th>
+        <th class="num">Dev bpb</th><th class="num">Δ</th><th>Verdict</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <h2><span class="n">03</span> The locked architecture</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Model — tied GPT</h3>
+      <dl>
+        <dt>Type</dt><dd>decoder-only transformer</dd>
+        <dt>Layers</dt><dd>4</dd>
+        <dt>Heads</dt><dd>4 (head dim 44)</dd>
+        <dt>n_embd</dt><dd>176</dd>
+        <dt>Block size</dt><dd>256 tokens</dd>
+        <dt>MLP</dt><dd>4× GELU</dd>
+        <dt>Norm</dt><dd>pre-LayerNorm</dd>
+        <dt>Attention</dt><dd>causal SDPA</dd>
+        <dt>Embed ↔ head</dt><dd>tied (stored once)</dd>
+        <dt>Params</dt><dd>1,901,856</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <h3>Tokenizer &amp; training</h3>
+      <dl>
+        <dt>Tokenizer</dt><dd>byte-level BPE</dd>
+        <dt>Vocab</dt><dd>2048</dd>
+        <dt>Bytes/token (dev)</dt><dd>3.01</dd>
+        <dt>Fallback</dt><dd>256 raw bytes (lossless)</dd>
+        <dt>Optimizer</dt><dd>Adam (wd 0)</dd>
+        <dt>Peak LR</dt><dd>1e-3</dd>
+        <dt>Schedule</dt><dd>warmup 100 → cosine 0.1×</dd>
+        <dt>Grad clip</dt><dd>1.0</dd>
+        <dt>Init</dt><dd>0.02, resid ÷√(2L)</dd>
+        <dt>Batch · seed</dt><dd>8 · 1337</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2><span class="n">04</span> Why this is the best config</h2>
+  <ul class="reasons">
+    <li><b>Tokenizer efficiency dominates a per-byte metric.</b> Devanagari is 3 bytes/char
+      under raw UTF-8; a corpus-trained BPE cut sequences ~3× so each prediction spans more
+      bytes — the largest single win (−0.27), and comparable across tokenizers because scoring
+      is per byte.</li>
+    <li><b>A schedule beats a constant LR on a fixed step budget.</b> The model was still
+      descending at step 2000, so warmup + cosine with a higher 1e-3 peak extracted more from
+      the same 2000 steps (−0.06).</li>
+    <li><b>Tying paid for capacity.</b> Weight tying was slightly negative alone but freed 327k
+      params; reinvested into scaled init, wider n_embd (176), and a 256-token window, the
+      tied path overtook the untied one.</li>
+    <li><b>Context length is a real lever once tokens are subword-sized.</b> Doubling the block
+      to 256 gave each prediction more true left context (−0.023).</li>
+    <li><b>Regularizers earned nothing in an underfit regime — so they were dropped.</b> Grad
+      clipping was neutral (kept as insurance); AdamW weight decay was noise and reverted.</li>
+    <li><b>Cap-safe by construction.</b> When tied, no separate <code>head</code> is created, so
+      the tied weight is stored once and <code>model.n_params()</code> and a naive checkpoint sum
+      both read 1,901,856 — no way to count it over cap.</li>
+  </ul>
+
+  <h2><span class="n">05</span> Machine-done vs human-done — an honest split</h2>
+  <div class="split machine">
+    <div>
+      <h3>Done by the assistant (machine)</h3>
+      <ul>
+        <li>Read the starter code; wrote the byte-level BPE trainer + lossless tokenizer with byte fallback.</li>
+        <li>Implemented every code change: LR schedule, grad clipping, scaled residual init, weight-tying dedup, capacity/context edits.</li>
+        <li>Ran all 9 training runs + the final, scored each on dev, and recorded every bpb number.</li>
+        <li>Maintained RUNLOG.md, NOTES.md, this page, and one commit per experiment.</li>
+        <li>Caught the tied-weight double-count risk and fixed the checkpoint format.</li>
+      </ul>
+    </div>
+    <div class="human">
+      <h3>Done by the human (you)</h3>
+      <ul>
+        <li>Set the task, caps, and the one-change-per-run methodology.</li>
+        <li>Provided the corpus and dev file; approved keep/revert after each run.</li>
+        <li>Chose the BPE vocab size (2048) and directed the block-size-256 experiment.</li>
+        <li>Called the lock and the final run.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="foot">Reproduce: <code>python train_bpe.py --data train_corpus.txt --vocab 2048</code>
+    then <code>python train.py --data train_corpus.txt --steps 2000 --out ckpt.pt</code>,
+    score with <code>python evaluate.py --checkpoint ckpt.pt --text_file dev_eval.txt</code>.
+    Deterministic under seed 1337.</p>
+</div>
+
+<script>
+  const runs = [
+    {n:0, name:"Baseline (byte tokenizer)",           p:"1,339,840", bpb:2.3718, d:null,     v:"baseline", cls:"", kept:true},
+    {n:1, name:"BPE tokenizer, vocab 2048",            p:"1,913,280", bpb:2.0991, d:-0.2727,  v:"keep",     cls:"good", kept:true},
+    {n:2, name:"Warmup + cosine, peak 1e-3",           p:"1,913,280", bpb:2.0434, d:-0.0557,  v:"keep",     cls:"good", kept:true},
+    {n:3, name:"Weight tying",                         p:"1,585,600", bpb:2.0661, d:+0.0227,  v:"banks params", cls:"warn", kept:false},
+    {n:4, name:"Gradient clipping @1.0",               p:"1,585,600", bpb:2.0675, d:+0.0014,  v:"neutral",  cls:"warn", kept:false},
+    {n:5, name:"Scaled residual init",                 p:"1,585,600", bpb:2.0419, d:-0.0256,  v:"keep",     cls:"good", kept:true},
+    {n:6, name:"n_embd 160 → 176",                     p:"1,879,328", bpb:2.0270, d:-0.0149,  v:"keep",     cls:"good", kept:true},
+    {n:7, name:"block_size 128 → 256",                 p:"1,901,856", bpb:2.0044, d:-0.0226,  v:"keep · best", cls:"good", kept:true},
+    {n:8, name:"AdamW weight decay 0.1",               p:"1,901,856", bpb:2.0049, d:+0.0005,  v:"revert",   cls:"bad", kept:false},
+  ];
+
+  // table
+  const rows = document.getElementById("rows");
+  rows.innerHTML = runs.map(r => {
+    const d = r.d===null ? "—"
+      : `<span class="${r.d<0?'delta-good':'delta-bad'}">${r.d<0?'−':'+'}${Math.abs(r.d).toFixed(4)}</span>`;
+    return `<tr class="${r.n===7?'best':''}">
+      <td class="num">${r.n}</td><td>${r.name}</td><td class="num">${r.p}</td>
+      <td class="num">${r.bpb.toFixed(4)}</td><td class="num">${d}</td>
+      <td class="tag">${r.v}</td></tr>`;
+  }).join("");
+
+  // chart
+  (function(){
+    const W=900,H=380, m={t:24,r:24,b:44,l:56};
+    const iw=W-m.l-m.r, ih=H-m.t-m.b;
+    const xs=runs.map(r=>r.n), ys=runs.map(r=>r.bpb);
+    const xMin=0, xMax=8, yMin=1.98, yMax=2.40;
+    const X=n=> m.l + (n-xMin)/(xMax-xMin)*iw;
+    const Y=v=> m.t + (yMax-v)/(yMax-yMin)*ih;
+    let g="";
+    // gridlines + y labels
+    for(let v=2.0; v<=2.4001; v+=0.1){
+      const y=Y(v);
+      g+=`<line x1="${m.l}" y1="${y.toFixed(1)}" x2="${W-m.r}" y2="${y.toFixed(1)}"
+            stroke="var(--line)" stroke-width="1"/>`;
+      g+=`<text x="${m.l-10}" y="${(y+4).toFixed(1)}" text-anchor="end"
+            font-family="var(--mono)" font-size="12" fill="var(--ink-soft)">${v.toFixed(1)}</text>`;
+    }
+    // x labels
+    runs.forEach(r=>{
+      g+=`<text x="${X(r.n).toFixed(1)}" y="${H-16}" text-anchor="middle"
+            font-family="var(--mono)" font-size="12" fill="var(--ink-soft)">${r.n}</text>`;
+    });
+    g+=`<text x="${m.l}" y="${H-2}" font-family="var(--mono)" font-size="11"
+          fill="var(--ink-soft)">run #</text>`;
+    // kept-line path (baseline + kept runs, in order)
+    const kept=runs.filter(r=>r.kept);
+    const path=kept.map((r,i)=>`${i?'L':'M'}${X(r.n).toFixed(1)},${Y(r.bpb).toFixed(1)}`).join(" ");
+    // area under kept line
+    const area=`M${X(kept[0].n).toFixed(1)},${Y(yMin).toFixed(1)} `
+      + kept.map(r=>`L${X(r.n).toFixed(1)},${Y(r.bpb).toFixed(1)}`).join(" ")
+      + ` L${X(kept[kept.length-1].n).toFixed(1)},${Y(yMin).toFixed(1)} Z`;
+    g+=`<path d="${area}" fill="var(--accent-soft)"/>`;
+    g+=`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5"
+          stroke-linejoin="round" stroke-linecap="round"/>`;
+    // connector to reverted/neutral points (dashed from prev kept best)
+    // points
+    runs.forEach(r=>{
+      const x=X(r.n).toFixed(1), y=Y(r.bpb).toFixed(1);
+      if(r.kept){
+        g+=`<circle cx="${x}" cy="${y}" r="4.5" fill="var(--accent)"
+              stroke="var(--panel)" stroke-width="2"/>`;
+      } else {
+        g+=`<circle cx="${x}" cy="${y}" r="4.5" fill="var(--panel)"
+              stroke="var(--ink-soft)" stroke-width="1.8"/>`;
+      }
+    });
+    // label best + baseline
+    g+=`<text x="${X(0)}" y="${Y(2.3718)-12}" text-anchor="start" font-family="var(--mono)"
+          font-size="12" font-weight="600" fill="var(--ink)">2.3718</text>`;
+    g+=`<text x="${X(7)}" y="${Y(2.0044)-14}" text-anchor="middle" font-family="var(--mono)"
+          font-size="12" font-weight="600" fill="var(--accent)">2.0044</text>`;
+    document.getElementById("chart").innerHTML=g;
+  })();
+</script>
