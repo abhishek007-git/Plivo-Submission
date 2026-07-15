@@ -9,7 +9,7 @@ Rule: change ONE thing per run. Params must stay ≤ 2,000,000; steps ≤ 2,000.
 | 0 | Baseline (byte tok, Adam 3e-4 const LR, std=0.05 init, no tie/clip/wd) | 1,339,840 | **2.3718** | — | baseline |
 | 1 | BPE tokenizer, vocab 2048 (only change) | 1,913,280 | **2.0991** | −0.2727 |  keep |
 | 2 | LR warmup(100) + cosine decay to 0.1×, peak 1e-3 | 1,913,280 | **2.0434** | −0.0557 |  keep |
-| 3 | Weight tying (head = tok_emb) | 1,585,600 | **2.0661** | +0.0227 | ⚠️ conditional — banks 327k params for capacity retune |
+| 3 | Weight tying (head = tok_emb) | 1,585,600 | **2.0661** | +0.0227 |  conditional — banks 327k params for capacity retune |
 | 4 | Gradient clipping @ norm 1.0 | 1,585,600 | **2.0675** | +0.0014 | ➖ neutral (kept as insurance) |
 | 5 | Scaled residual init (std 0.02, proj ×1/√(2·n_layer)) | 1,585,600 | **2.0419** | −0.0256 |  keep (new best; clears tying checkpoint) |
 | 6 | Capacity: n_embd 160 → 176 (spend banked params) | 1,879,328 | **2.0270** | −0.0149 |  keep (new best) |
